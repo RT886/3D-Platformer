@@ -4,7 +4,11 @@ using UnityEngine;
 
 public class charactercontroller : MonoBehaviour
 {
-    float maxSpeed = 1.0f;
+    public float maxSpeed;
+    public float normalSpeed = 10.0f;
+    public float sprintSpeed = 20.0f;
+
+    
     float rotation = 0.0f;
     float camRotation = 2.0f;
     float camRotationSpeed = 1.5f;
@@ -14,8 +18,18 @@ public class charactercontroller : MonoBehaviour
     bool isOnGround;
     public GameObject groundChecker;
     public LayerMask groundLayer;
+    public float jumpForce = 300.0f;
+
+    public float maxSprint = 5.0f;
+    float sprintTimer;
     void Start()
     {
+
+        {
+            Cursor.lockState = CursorLockMode.Locked;
+        }
+        sprintTimer = maxSprint;
+
         cam = GameObject.Find("Main Camera");
         myRigidbody = GetComponent<Rigidbody>();
     }
@@ -25,7 +39,26 @@ public class charactercontroller : MonoBehaviour
     {
         isOnGround = Physics.CheckSphere(groundChecker.transform.position, 0.1f, groundLayer);
 
-        Vector3 NewVelocity = transform.forward * Input.GetAxis("Vertical") * maxSpeed;
+        if (isOnGround == true && Input.GetKeyDown(KeyCode.Space))
+        {
+            myRigidbody.AddForce(transform.up * jumpForce);
+        }
+
+        if (Input.GetKey(KeyCode.LeftShift))
+        {
+            maxSpeed = sprintSpeed;
+            sprintTimer = sprintTimer - Time.deltaTime;
+        }  else
+        {
+            maxSpeed = normalSpeed;
+            if(Input.GetKey(KeyCode.LeftShift) == false){
+                sprintTimer = sprintTimer + Time.deltaTime;
+            }
+        }
+
+        sprintTimer = Mathf.Clamp(sprintTimer, 0.0f, maxSprint);
+
+        Vector3 NewVelocity = (transform.forward * Input.GetAxis("Vertical") * maxSpeed) + (transform.right * Input.GetAxis("Horizontal") * maxSpeed);
         myRigidbody.velocity = new Vector3(NewVelocity.x, myRigidbody.velocity.y, NewVelocity.z);
  
         transform.position = transform.position + (transform.forward * Input.GetAxis("Vertical") * maxSpeed);
@@ -33,6 +66,7 @@ public class charactercontroller : MonoBehaviour
         transform.rotation = Quaternion.Euler(new Vector3(0.0f, rotation, 0.0f));
 
         camRotation = camRotation + Input.GetAxis("Mouse Y") * camRotationSpeed;
+        camRotation = Mathf.Clamp(camRotation, -40.0f, 40.0f);
         cam.transform.localRotation = Quaternion.Euler(new Vector3(camRotation, 0.0f, 0.0f));
     }
 }
