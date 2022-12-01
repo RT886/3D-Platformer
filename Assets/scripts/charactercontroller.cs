@@ -5,8 +5,8 @@ using UnityEngine;
 public class charactercontroller : MonoBehaviour
 {
     public float maxSpeed;
-    public float normalSpeed = 10.0f;
-    public float sprintSpeed = 20.0f;
+    public float normalSpeed = 3.0f;
+    public float sprintSpeed = 6.0f;
 
     
     float rotation = 0.0f;
@@ -20,10 +20,14 @@ public class charactercontroller : MonoBehaviour
     public LayerMask groundLayer;
     public float jumpForce = 300.0f;
 
-    public float maxSprint = 5.0f;
+    public float maxSprint = 6.0f;
     float sprintTimer;
+
+    Animator myAnim;
+
     void Start()
     {
+        myAnim = GetComponentInChildren<Animator>();
 
         {
             Cursor.lockState = CursorLockMode.Locked;
@@ -38,9 +42,11 @@ public class charactercontroller : MonoBehaviour
     void Update()
     {
         isOnGround = Physics.CheckSphere(groundChecker.transform.position, 0.1f, groundLayer);
+        myAnim.SetBool("isOnGround", isOnGround);
 
         if (isOnGround == true && Input.GetKeyDown(KeyCode.Space))
         {
+            myAnim.SetTrigger("jumped");
             myRigidbody.AddForce(transform.up * jumpForce);
         }
 
@@ -58,7 +64,10 @@ public class charactercontroller : MonoBehaviour
 
         sprintTimer = Mathf.Clamp(sprintTimer, 0.0f, maxSprint);
 
+
+
         Vector3 NewVelocity = (transform.forward * Input.GetAxis("Vertical") * maxSpeed) + (transform.right * Input.GetAxis("Horizontal") * maxSpeed);
+                myAnim.SetFloat("speed", NewVelocity.magnitude);
         myRigidbody.velocity = new Vector3(NewVelocity.x, myRigidbody.velocity.y, NewVelocity.z);
  
         transform.position = transform.position + (transform.forward * Input.GetAxis("Vertical") * maxSpeed);
