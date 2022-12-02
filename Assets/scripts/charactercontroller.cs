@@ -9,6 +9,7 @@ public class charactercontroller : MonoBehaviour
     public float sprintSpeed = 6.0f;
 
     
+    
     float rotation = 0.0f;
     float camRotation = 2.0f;
     float camRotationSpeed = 1.5f;
@@ -23,11 +24,23 @@ public class charactercontroller : MonoBehaviour
     public float maxSprint = 6.0f;
     float sprintTimer;
 
+    public AudioClip jump;
+    public AudioClip backgroundMusic;
+
+    public AudioSource sfxPlayer;
+    public AudioSource musicPlayer;
+
+    
+
     Animator myAnim;
 
     void Start()
     {
         myAnim = GetComponentInChildren<Animator>();
+       
+        musicPlayer.clip = backgroundMusic;
+        musicPlayer.loop = true;
+        musicPlayer.Play();
 
         {
             Cursor.lockState = CursorLockMode.Locked;
@@ -78,4 +91,8 @@ public class charactercontroller : MonoBehaviour
         camRotation = Mathf.Clamp(camRotation, -40.0f, 40.0f);
         cam.transform.localRotation = Quaternion.Euler(new Vector3(camRotation, 0.0f, 0.0f));
     }
+
+        
+        
 }
+
