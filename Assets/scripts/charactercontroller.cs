@@ -7,6 +7,7 @@ public class charactercontroller : MonoBehaviour
     public float maxSpeed;
     public float normalSpeed = 3.0f;
     public float sprintSpeed = 6.0f;
+    public GameObject respawn;
 
     
     
@@ -90,9 +91,21 @@ public class charactercontroller : MonoBehaviour
         camRotation = camRotation + Input.GetAxis("Mouse Y") * camRotationSpeed;
         camRotation = Mathf.Clamp(camRotation, -40.0f, 40.0f);
         cam.transform.localRotation = Quaternion.Euler(new Vector3(camRotation, 0.0f, 0.0f));
+
+
     }
 
-        
+    private void OnTriggerEnter(Collider other)
+    {
+
+        if(other.tag == "Respawn")
+        {
+            transform.position = respawn.transform.position;
+        }
+
+    }
+
+    
         
 }
 
