@@ -43,9 +43,6 @@ public class charactercontroller : MonoBehaviour
         musicPlayer.loop = true;
         musicPlayer.Play();
 
-        {
-            Cursor.lockState = CursorLockMode.Locked;
-        }
         sprintTimer = maxSprint;
 
         cam = GameObject.Find("Main Camera");
