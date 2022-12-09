@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.32679528, g: 0.2813046, b: 0.41646165, a: 1}
+  m_IndirectSpecularColor: {r: 0.3273415, g: 0.2819711, b: 0.41690004, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -5860,15 +5860,15 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   maxSpeed: 0
-  normalSpeed: 0.006
-  sprintSpeed: 0.006
+  normalSpeed: 0.005
+  sprintSpeed: 0.005
   respawn: {fileID: 1884182417}
   groundChecker: {fileID: 1049288737}
   groundLayer:
     serializedVersion: 2
     m_Bits: 8
   jumpForce: 200.16
-  maxSprint: 0.02
+  maxSprint: 0.005
   jump: {fileID: 0}
   backgroundMusic: {fileID: 8300000, guid: 1d43cd816d5c0f74e988ec3ccaa12036, type: 3}
   sfxPlayer: {fileID: 0}
